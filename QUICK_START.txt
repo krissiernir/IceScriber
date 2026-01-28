@@ -1,0 +1,76 @@
+╔════════════════════════════════════════════════════════════════════════╗
+║                   IceScriber Overnight Testing Guide                   ║
+║                         Ready to Test with Full Book                   ║
+╚════════════════════════════════════════════════════════════════════════╝
+
+📍 LOCATION
+  /Users/kristjan/Create/Coding/IceScriber
+
+🚀 ONE COMMAND TO RUN EVERYTHING
+  bash test_overnight.sh
+
+  This will:
+  ✓ Initialize fresh database
+  ✓ Ingest all JSON files from audio_chapters/
+  ✓ Run keyword searches
+  ✓ Show final statistics
+
+⏱️  EXPECTED TIME
+  • Fast (< 1 second) for current 2 JSON files
+  • Linear scale: ~1.8KB per segment in database
+
+🔍 MANUAL TESTING OPTIONS
+
+  1. List all books:
+     python query.py --list-books
+
+  2. Search for keyword:
+     python query.py "Dauði"
+     python query.py "orð"
+
+  3. Show book details:
+     python query.py --info 5ef8b42f-0baf-4b68-b573-214b370b9761
+
+  4. List audio files in book:
+     python query.py --list-audio-files 5ef8b42f-0baf-4b68-b573-214b370b9761
+
+📊 CURRENT DATA
+  Book: Dauði Trúðsins
+  Author: Árni Þórarinsson
+  Audio Files: 2 JSON transcripts
+  Segments: 54 time windows
+  Database: 100KB
+
+📁 ADD MORE CHAPTERS
+  1. Place new MP3 files in audio_chapters/
+  2. Transcribe with: python transcribe.py
+  3. Reingest with: python ingest.py --rescan
+
+📈 MONITORING
+  After each test, check:
+  • Database size: ls -lh transcripts.db
+  • Row counts: python -c "import sqlite3; conn=sqlite3.connect('transcripts.db'); print(conn.execute('SELECT COUNT(*) FROM segments').fetchone())"
+  • Search speed: Time the query.py commands
+
+✅ SYSTEM STATUS
+  ✓ schema.sql        - Database schema
+  ✓ db.py             - Core utilities (330 lines)
+  ✓ ingest.py         - Import JSON files (251 lines)
+  ✓ query.py          - Search interface (281 lines)
+  ✓ test_overnight.sh - Automated test
+  ✓ transcripts.db    - Current database (100KB)
+
+📚 DOCUMENTATION
+  - README.md              - Full documentation with examples
+  - OVERNIGHT_TEST.md      - Detailed test guide
+  - QUICK_START.txt        - This file
+
+🎯 SUCCESS CRITERIA
+  ✅ Database ingests all JSON files without errors
+  ✅ Search returns results with correct timestamps
+  ✅ Database size remains reasonable (< 50MB for typical book)
+  ✅ No data corruption after multiple ingest/search cycles
+
+═══════════════════════════════════════════════════════════════════════════
+
+Questions? See OVERNIGHT_TEST.md for detailed information.
