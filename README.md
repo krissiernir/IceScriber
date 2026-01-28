@@ -26,8 +26,10 @@ A specialized Python tool for transcribing long-form Icelandic audiobooks using 
 
 ## 📖 How to use
 
-1. Place your audio chapters in the `audio_chapters/` folder.
-2. Run the script:
+### Transcription
+
+1. Place your audio files in the `audio_chapters/` folder.
+2. Run the transcription script:
 
 ```bash
 python transcribe.py# IceScriber
