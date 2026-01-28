@@ -1,0 +1,24 @@
+# Virtual Environments
+venv/
+venv_stable/
+.venv/
+
+# Audio and Data (Don't upload audiobooks!)
+audio_chapters/
+*.mp3
+*.m4a
+*.wav
+*.flac
+
+# Transcripts
+*_TRANSCRIPT.txt
+*_TIMESTAMPS.txt
+stable_output.txt
+audiobook_transcription.txt
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Mac system files
+.DS_Store
