@@ -3,6 +3,7 @@ from transformers import AutoModelForSpeechSeq2Seq, AutoProcessor
 import librosa
 import os
 import time
+import json
 from tqdm import tqdm
 import tkinter as tk
 from tkinter import filedialog
@@ -205,6 +206,50 @@ def find_overlap_end(prev_text, curr_text, min_overlap_words=5):
     
     return 0
 
+def build_json_transcript(audio_path, segments, language="icelandic"):
+    """
+    Build JSON structure as source of truth for transcript.
+    
+    segments: list of {"start": time, "end": time, "text": content}
+    """
+    json_data = {
+        "metadata": {
+            "audio_file": os.path.basename(audio_path),
+            "language": language,
+            "model": MODEL_ID,
+            "window_size_seconds": WINDOW_SIZE_SECONDS,
+            "stride_seconds": STRIDE_SECONDS,
+            "overlap_seconds": OVERLAP_SECONDS
+        },
+        "segments": segments
+    }
+    return json_data
+
+def save_json_transcript(json_data, output_path):
+    """Save JSON transcript to file."""
+    with open(output_path, "w", encoding="utf-8") as f:
+        json.dump(json_data, f, ensure_ascii=False, indent=2)
+
+def json_to_formatted_text(json_data, include_timestamps=True, apply_punctuation=False):
+    """Convert JSON segments to formatted text."""
+    lines = []
+    for segment in json_data["segments"]:
+        timestamp = format_timestamp(segment["start"])
+        text = segment["text"]
+        
+        if apply_punctuation:
+            text = format_text_with_punctuation(f"[{timestamp}] {text}")
+            # Remove timestamp prefix from punctuation result
+            if "] " in text:
+                text = text.split("] ", 1)[1]
+        
+        if include_timestamps:
+            lines.append(f"[{timestamp}] {text}")
+        else:
+            lines.append(text)
+    
+    return "\n".join(lines)
+
 def transcribe_audiobook():
     audio_path = select_file()
     if not audio_path:
@@ -286,16 +331,49 @@ def transcribe_audiobook():
                 if new_text.strip():  # Only add if there's content
                     full_transcript.append(f"\n[{timestamp}] {new_text}")
 
-    # 6. Save Results in three formats
-    raw_transcript = "".join(full_transcript)
-    formatted_timestamps = format_timestamps(raw_transcript)
-    formatted_timestamps_punct = format_text_with_punctuation(formatted_timestamps)
-    formatted_markdown = format_markdown(formatted_timestamps)
-    formatted_llm = format_llm_optimized(formatted_timestamps)
+    # 5.5. Build segments for JSON (source of truth)
+    segments = []
+    for idx, text in enumerate(chunk_texts):
+        start_time = chunk_times[idx]
+        end_time = chunk_times[idx] + WINDOW_SIZE_SECONDS if idx < len(chunk_times) - 1 else start_time + WINDOW_SIZE_SECONDS
+        
+        if idx == 0:
+            segments.append({
+                "start": start_time,
+                "end": end_time,
+                "text": text.strip()
+            })
+        else:
+            prev_text = chunk_texts[idx - 1]
+            skip_words = find_overlap_end(prev_text, text)
+            words = text.split()
+            if skip_words < len(words):
+                new_text = " ".join(words[skip_words:])
+                if new_text.strip():
+                    segments.append({
+                        "start": start_time,
+                        "end": end_time,
+                        "text": new_text.strip()
+                    })
+
+    # 6. Build JSON as source of truth
+    json_data = build_json_transcript(audio_path, segments)
     
+    # Apply punctuation to segments in JSON
+    for segment in json_data["segments"]:
+        segment["text"] = format_text_with_punctuation(segment["text"])
+    
+    # Save JSON (source of truth)
     base_path = os.path.splitext(audio_path)[0]
+    output_file_json = base_path + ".json"
+    save_json_transcript(json_data, output_file_json)
     
-    # Save timestamps version
+    # Derive all output formats from JSON
+    formatted_timestamps_punct = json_to_formatted_text(json_data, include_timestamps=True, apply_punctuation=False)
+    formatted_markdown = format_markdown(formatted_timestamps_punct)
+    formatted_llm = format_llm_optimized(formatted_timestamps_punct)
+    
+    # Save derived formats
     output_file_ts = base_path + "_TEXTI.txt"
     with open(output_file_ts, "w", encoding="utf-8") as f:
         f.write(formatted_timestamps_punct)
@@ -313,6 +391,10 @@ def transcribe_audiobook():
     total_time = (time.time() - start_time) / 60
     print(f"\n✅ VERKI LOKIÐ!")
     print(f"Heildartími: {total_time:.2f} mínútur")
+    print(f"\n📋 JSON (source of truth):  {output_file_json}")
+    print(f"📄 TRANSCRIPT (timestamps): {output_file_ts}")
+    print(f"📖 MARKDOWN (readable):     {output_file_md}")
+    print(f"🤖 LLM (optimized):         {output_file_llm}")
     print(f"Skrá vistuð: {output_file_ts}")
     print(f"Skrá vistuð: {output_file_md}")
     print(f"Skrá vistuð: {output_file_llm}")

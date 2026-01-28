@@ -3,6 +3,7 @@ from transformers import AutoModelForSpeechSeq2Seq, AutoProcessor
 import librosa
 import os
 import time
+import json
 from tqdm import tqdm
 
 # Force Offline
@@ -199,6 +200,50 @@ def find_overlap_end(prev_text, curr_text, min_overlap_words=5):
     
     return 0
 
+def build_json_transcript(audio_path, segments, language="icelandic"):
+    """
+    Build JSON structure as source of truth for transcript.
+    
+    segments: list of {"start": time, "end": time, "text": content}
+    """
+    json_data = {
+        "metadata": {
+            "audio_file": os.path.basename(audio_path),
+            "language": language,
+            "model": MODEL_ID,
+            "window_size_seconds": WINDOW_SIZE_SECONDS,
+            "stride_seconds": STRIDE_SECONDS,
+            "overlap_seconds": OVERLAP_SECONDS
+        },
+        "segments": segments
+    }
+    return json_data
+
+def save_json_transcript(json_data, output_path):
+    """Save JSON transcript to file."""
+    with open(output_path, "w", encoding="utf-8") as f:
+        json.dump(json_data, f, ensure_ascii=False, indent=2)
+
+def json_to_formatted_text(json_data, include_timestamps=True, apply_punctuation=False):
+    """Convert JSON segments to formatted text."""
+    lines = []
+    for segment in json_data["segments"]:
+        timestamp = format_timestamp(segment["start"])
+        text = segment["text"]
+        
+        if apply_punctuation:
+            text = format_text_with_punctuation(f"[{timestamp}] {text}")
+            # Remove timestamp prefix from punctuation result
+            if "] " in text:
+                text = text.split("] ", 1)[1]
+        
+        if include_timestamps:
+            lines.append(f"[{timestamp}] {text}")
+        else:
+            lines.append(text)
+    
+    return "\n".join(lines)
+
 def transcribe_all_chapters():
     # 1. Setup Device
     device = "mps" if torch.backends.mps.is_available() else "cpu"
@@ -253,13 +298,19 @@ def transcribe_all_chapters():
 
         # Intelligent Deduplication: Remove overlapping text and add timestamps
         full_chapter_transcript = []
+        segments = []  # Build segments for JSON
+        current_segment_start = chunk_times[0] if chunk_times else 0
+        current_segment_text = ""
         
         for idx, text in enumerate(chunk_texts):
-            timestamp = format_timestamp(chunk_times[idx])
+            start_time = chunk_times[idx]
+            end_time = chunk_times[idx] + WINDOW_SIZE_SECONDS if idx < len(chunk_times) - 1 else start_time + WINDOW_SIZE_SECONDS
             
             if idx == 0:
                 # First chunk: keep everything
-                full_chapter_transcript.append(f"[{timestamp}] {text}")
+                full_chapter_transcript.append(f"[{format_timestamp(start_time)}] {text}")
+                current_segment_text = text
+                current_segment_start = start_time
             else:
                 # Find where the overlap ends in this chunk
                 prev_text = chunk_texts[idx - 1]
@@ -270,16 +321,43 @@ def transcribe_all_chapters():
                 if skip_words < len(words):
                     new_text = " ".join(words[skip_words:])
                     if new_text.strip():  # Only add if there's content
-                        full_chapter_transcript.append(f"\n[{timestamp}] {new_text}")
+                        full_chapter_transcript.append(f"\n[{format_timestamp(start_time)}] {new_text}")
+                        
+                        # Add completed segment to JSON
+                        if current_segment_text.strip():
+                            segments.append({
+                                "start": current_segment_start,
+                                "end": start_time,
+                                "text": current_segment_text.strip()
+                            })
+                        current_segment_text = new_text.strip()
+                        current_segment_start = start_time
+        
+        # Add final segment
+        if current_segment_text.strip():
+            segments.append({
+                "start": current_segment_start,
+                "end": current_segment_start + WINDOW_SIZE_SECONDS,
+                "text": current_segment_text.strip()
+            })
+        
+        # Build JSON as source of truth
+        json_data = build_json_transcript(audio_path, segments)
+        
+        # Apply punctuation to segments in JSON
+        for segment in json_data["segments"]:
+            segment["text"] = format_text_with_punctuation(segment["text"])
+        
+        # Save JSON (source of truth)
+        output_file_json = audio_path + ".json"
+        save_json_transcript(json_data, output_file_json)
+        
+        # Derive all output formats from JSON
+        formatted_timestamps_punct = json_to_formatted_text(json_data, include_timestamps=True, apply_punctuation=False)
+        formatted_markdown = format_markdown(formatted_timestamps_punct)
+        formatted_llm = format_llm_optimized(formatted_timestamps_punct)
 
-        # Apply smart formatting and punctuation
-        raw_transcript = "".join(full_chapter_transcript)
-        formatted_timestamps = format_timestamps(raw_transcript)
-        formatted_timestamps_punct = format_text_with_punctuation(formatted_timestamps)
-        formatted_markdown = format_markdown(formatted_timestamps)
-        formatted_llm = format_llm_optimized(formatted_timestamps)
-
-        # Save this specific chapter in three formats
+        # Save derived formats
         output_file_ts = audio_path + "_TRANSCRIPT.txt"
         with open(output_file_ts, "w", encoding="utf-8") as f:
             f.write(formatted_timestamps_punct)
@@ -292,9 +370,10 @@ def transcribe_all_chapters():
         with open(output_file_llm, "w", encoding="utf-8") as f:
             f.write(formatted_llm)
         
-        print(f"Done! Saved to {output_file_ts}")
-        print(f"       Saved to {output_file_md}")
-        print(f"       Saved to {output_file_llm}")
+        print(f"Done! Saved JSON (source of truth): {output_file_json}")
+        print(f"       Derived TRANSCRIPT: {output_file_ts}")
+        print(f"       Derived MARKDOWN:   {output_file_md}")
+        print(f"       Derived LLM:        {output_file_llm}")
 
     print("\n✅ ALL CHAPTERS FINISHED!")
 
