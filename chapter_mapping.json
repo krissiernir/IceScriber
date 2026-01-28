@@ -1,0 +1,132 @@
+{
+  "book_title": "Dauði Trúðsins",
+  "author": "Árni Þórarinsson",
+  "genre": "Mystery/Crime Fiction",
+  "chapters": [
+    {
+      "number": 0,
+      "title": "Intro - Dauði Trúðsins",
+      "files": ["001_Daudi_trudsins.mp3.json"]
+    },
+    {
+      "number": 0,
+      "title": "Cover Text",
+      "files": ["002_Texti_a_bokarkap.mp3.json"]
+    },
+    {
+      "number": 1,
+      "title": "Nótt í byrjun",
+      "files": ["003_1_-_Nott_i_byrju.mp3.json"]
+    },
+    {
+      "number": 2,
+      "title": "Föstudagur",
+      "files": ["004_2_-_Foestudagur_.mp3.json"]
+    },
+    {
+      "number": 3,
+      "title": "Laugardagur",
+      "files": ["005_3_-_Laugardagur.mp3.json"]
+    },
+    {
+      "number": 4,
+      "title": "Sunnudagur",
+      "files": ["006_4_-_Sunnudagur.mp3.json"]
+    },
+    {
+      "number": 5,
+      "title": "Mánudagur",
+      "files": ["007_5_-_Manudagur._F.mp3.json"]
+    },
+    {
+      "number": 6,
+      "title": "Þriðjudagur",
+      "files": ["008_6_-_thridjudagur.mp3.json"]
+    },
+    {
+      "number": 7,
+      "title": "Miðvikudagur",
+      "files": ["009_7_-_Midvikudagur.mp3.json"]
+    },
+    {
+      "number": 8,
+      "title": "Fimmtudagur",
+      "files": ["010_8_-_Fimmtudagur.mp3.json"]
+    },
+    {
+      "number": 9,
+      "title": "Föstudagur",
+      "files": ["011_9_-_Foestudagur.mp3.json"]
+    },
+    {
+      "number": 10,
+      "title": "Laugardagur",
+      "files": ["012_10_-_Laugardagur.mp3.json"]
+    },
+    {
+      "number": 11,
+      "title": "Sunnudagur",
+      "files": ["013_11_-_Sunnudagur.mp3.json"]
+    },
+    {
+      "number": 12,
+      "title": "Mánudagur",
+      "files": ["014_12_-_Manudagur.mp3.json"]
+    },
+    {
+      "number": 13,
+      "title": "Þriðjudagur",
+      "files": ["015_13_-_thridjudagu.mp3.json"]
+    },
+    {
+      "number": 14,
+      "title": "Miðvikudagur",
+      "files": ["016_14_-_Midvikudagu.mp3.json"]
+    },
+    {
+      "number": 15,
+      "title": "Fimmtudagur",
+      "files": ["017_15_-_Fimmtudagur.mp3.json"]
+    },
+    {
+      "number": 16,
+      "title": "Föstudagur",
+      "files": ["018_16_-_Foestudagur.mp3.json"]
+    },
+    {
+      "number": 17,
+      "title": "Laugardagur",
+      "files": ["019_17_-_Laugardagur.mp3.json"]
+    },
+    {
+      "number": 18,
+      "title": "Sunnudagur",
+      "files": ["020_18_-_Sunnudagur.mp3.json"]
+    },
+    {
+      "number": 19,
+      "title": "Mánudagur",
+      "files": ["021_19_-_Manudagur.mp3.json"]
+    },
+    {
+      "number": 20,
+      "title": "Þriðjudagur",
+      "files": ["022_20_-_thridjudagu.mp3.json"]
+    },
+    {
+      "number": 21,
+      "title": "Miðvikudagur",
+      "files": ["023_21_-_Midvikudagu.mp3.json"]
+    },
+    {
+      "number": 22,
+      "title": "Fimmtudagur",
+      "files": ["024_22_-_Fimmtudagur.mp3.json"]
+    },
+    {
+      "number": 23,
+      "title": "Föstudagur",
+      "files": ["025_23_-_Foestudagur.mp3.json"]
+    }
+  ]
+}

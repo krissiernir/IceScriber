@@ -265,6 +265,13 @@ def transcribe_all_chapters():
     # 4. Loop through each file
     for filename in audio_files:
         audio_path = os.path.join(INPUT_FOLDER, filename)
+        json_path = os.path.join(INPUT_FOLDER, f"{filename}.json")
+        
+        # Skip if already transcribed (JSON exists)
+        if os.path.exists(json_path):
+            print(f"✓ Skipping {filename} (already transcribed)")
+            continue
+        
         print(f"\n--- Processing: {filename} ---")
         
         # Load audio
