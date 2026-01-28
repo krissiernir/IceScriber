@@ -24,6 +24,152 @@ def format_timestamp(seconds):
     secs = int(seconds % 60)
     return f"{hours:02d}:{minutes:02d}:{secs:02d}"
 
+def format_text_with_punctuation(text):
+    """
+    Add smart punctuation and formatting to raw transcription.
+    - Add periods at sentence boundaries
+    - Capitalize sentence starts
+    """
+    lines = text.split('\n')
+    formatted_lines = []
+    
+    for line in lines:
+        # Preserve timestamp if present
+        if line.strip().startswith('['):
+            bracket_end = line.find(']')
+            if bracket_end != -1:
+                timestamp = line[:bracket_end + 1]
+                content = line[bracket_end + 1:].strip()
+            else:
+                timestamp = ''
+                content = line.strip()
+        else:
+            timestamp = ''
+            content = line.strip()
+        
+        if not content:
+            continue
+        
+        # Split into sentences using capitalization heuristic
+        words = content.split()
+        sentences = []
+        current_sentence = []
+        
+        for i, word in enumerate(words):
+            current_sentence.append(word)
+            is_last_word = (i == len(words) - 1)
+            next_word_capitalized = (i + 1 < len(words) and len(words[i+1]) > 0 and words[i+1][0].isupper()) if i + 1 < len(words) else False
+            
+            # Heuristic: sentence boundary when next word is capitalized or at end
+            if (is_last_word or next_word_capitalized) and len(current_sentence) > 2:
+                sentences.append(' '.join(current_sentence))
+                current_sentence = []
+        
+        if current_sentence:
+            sentences.append(' '.join(current_sentence))
+        
+        # Format each sentence with proper punctuation
+        formatted_sentences = []
+        for sent in sentences:
+            if sent.strip():
+                sent = sent.strip()
+                # Add period if missing
+                if not sent.endswith(('.', '?', '!', ',', ':', ';')):
+                    sent += '.'
+                # Capitalize first letter
+                if sent and sent[0].islower():
+                    sent = sent[0].upper() + sent[1:]
+                formatted_sentences.append(sent)
+        
+        formatted_text = ' '.join(formatted_sentences)
+        if timestamp:
+            formatted_lines.append(f"{timestamp} {formatted_text}")
+        else:
+            formatted_lines.append(formatted_text)
+    
+    return '\n'.join(formatted_lines)
+
+def format_timestamps(text):
+    """
+    Output format: timestamps with raw text for reference.
+    [HH:MM:SS] text...
+    """
+    return text
+
+def format_markdown(text):
+    """
+    Output format: markdown-friendly readable format.
+    - Removes timestamps
+    - Adds clean paragraph breaks every ~5 lines (roughly every 25 seconds)
+    - UTF-8 Icelandic characters preserved
+    """
+    lines = text.split('\n')
+    paragraphs = []
+    current_paragraph = []
+    line_count = 0
+    
+    for line in lines:
+        # Remove timestamp, keep content
+        if line.strip().startswith('['):
+            bracket_end = line.find(']')
+            if bracket_end != -1:
+                content = line[bracket_end + 1:].strip()
+            else:
+                content = line.strip()
+        else:
+            content = line.strip()
+        
+        if content:
+            current_paragraph.append(content)
+            line_count += 1
+            
+            # Create paragraph break every 5 chunks (~25 seconds)
+            if line_count >= 5:
+                paragraphs.append(' '.join(current_paragraph))
+                current_paragraph = []
+                line_count = 0
+    
+    # Add remaining content
+    if current_paragraph:
+        paragraphs.append(' '.join(current_paragraph))
+    
+    return '\n\n'.join(paragraphs)
+
+def format_llm_optimized(text):
+    """
+    Output format: maximum LLM readiness.
+    - No timestamps or special formatting
+    - Clean continuous text
+    - Single spaces, proper paragraph breaks
+    - UTF-8 Icelandic characters preserved
+    - Optimized for LLM ingestion (minimal preprocessing needed)
+    """
+    lines = text.split('\n')
+    content_lines = []
+    
+    for line in lines:
+        # Remove timestamp
+        if line.strip().startswith('['):
+            bracket_end = line.find(']')
+            if bracket_end != -1:
+                content = line[bracket_end + 1:].strip()
+            else:
+                content = line.strip()
+        else:
+            content = line.strip()
+        
+        if content:
+            content_lines.append(content)
+    
+    # Join with single spaces for continuous text
+    text_output = ' '.join(content_lines)
+    
+    # Clean up multiple spaces
+    while '  ' in text_output:
+        text_output = text_output.replace('  ', ' ')
+    
+    return text_output
+
 def find_overlap_end(prev_text, curr_text, min_overlap_words=5):
     """
     Find where prev_text's end overlaps with curr_text's beginning by looking for
@@ -126,12 +272,29 @@ def transcribe_all_chapters():
                     if new_text.strip():  # Only add if there's content
                         full_chapter_transcript.append(f"\n[{timestamp}] {new_text}")
 
-        # Save this specific chapter
-        output_file = audio_path + "_TRANSCRIPT.txt"
-        with open(output_file, "w", encoding="utf-8") as f:
-            f.write("".join(full_chapter_transcript))
+        # Apply smart formatting and punctuation
+        raw_transcript = "".join(full_chapter_transcript)
+        formatted_timestamps = format_timestamps(raw_transcript)
+        formatted_timestamps_punct = format_text_with_punctuation(formatted_timestamps)
+        formatted_markdown = format_markdown(formatted_timestamps)
+        formatted_llm = format_llm_optimized(formatted_timestamps)
+
+        # Save this specific chapter in three formats
+        output_file_ts = audio_path + "_TRANSCRIPT.txt"
+        with open(output_file_ts, "w", encoding="utf-8") as f:
+            f.write(formatted_timestamps_punct)
         
-        print(f"Done! Saved to {output_file}")
+        output_file_md = audio_path + "_MARKDOWN.md"
+        with open(output_file_md, "w", encoding="utf-8") as f:
+            f.write(formatted_markdown)
+        
+        output_file_llm = audio_path + "_LLM.txt"
+        with open(output_file_llm, "w", encoding="utf-8") as f:
+            f.write(formatted_llm)
+        
+        print(f"Done! Saved to {output_file_ts}")
+        print(f"       Saved to {output_file_md}")
+        print(f"       Saved to {output_file_llm}")
 
     print("\n✅ ALL CHAPTERS FINISHED!")
 
