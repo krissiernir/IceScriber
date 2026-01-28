@@ -12,11 +12,45 @@ os.environ["TRANSFORMERS_OFFLINE"] = "1"
 
 MODEL_ID = "language-and-voice-lab/whisper-large-icelandic-62640-steps-967h"
 
+# Sliding Window Settings
+WINDOW_SIZE_SECONDS = 30  # Size of each chunk
+STRIDE_SECONDS = 5        # How much to shift for next window (smaller = more overlap)
+OVERLAP_SECONDS = WINDOW_SIZE_SECONDS - STRIDE_SECONDS  # 25 seconds of context
+
 def select_file():
     root = tk.Tk()
     root.withdraw()
     root.attributes('-topmost', True)
     return filedialog.askopenfilename(title="Veldu hljóðbók (Select Audiobook)")
+
+def find_overlap_end(prev_text, curr_text, min_overlap_words=5):
+    """
+    Find where prev_text's end overlaps with curr_text's beginning by looking for
+    the longest common substring. More robust than word-level matching.
+    """
+    # Normalize text for comparison
+    prev_norm = prev_text.lower().split()
+    curr_norm = curr_text.lower().split()
+    
+    max_overlap_idx = 0
+    
+    # Look for the longest sequence of matching words at the boundary
+    # Search backwards from the end of prev_text
+    for overlap_len in range(min(len(prev_norm), len(curr_norm), 30), min_overlap_words - 1, -1):
+        prev_end = prev_norm[-overlap_len:]
+        
+        # Check all possible positions in current text
+        for start_idx in range(len(curr_norm) - overlap_len + 1):
+            curr_start = curr_norm[start_idx:start_idx + overlap_len]
+            
+            # Calculate match percentage (allow for minor variations)
+            matches = sum(1 for p, c in zip(prev_end, curr_start) if p == c)
+            match_pct = matches / overlap_len
+            
+            if match_pct >= 0.85:  # 85% match threshold for robustness
+                return start_idx + overlap_len
+    
+    return 0
 
 def transcribe_audiobook():
     audio_path = select_file()
@@ -42,14 +76,21 @@ def transcribe_audiobook():
     # This part might take a minute for a very long book
     speech, sr = librosa.load(audio_path, sr=16000)
     
-    # 3. Create 30-second chunks
-    chunk_len = 30 * sr
-    chunks = [speech[i:i + chunk_len] for i in range(0, len(speech), chunk_len)]
+    # 3. Create sliding window chunks
+    chunk_len = int(WINDOW_SIZE_SECONDS * sr)
+    stride_len = int(STRIDE_SECONDS * sr)
+    chunks = []
     
-    print(f"Fjöldi búta (Total Chunks): {len(chunks)}")
+    for i in range(0, len(speech), stride_len):
+        if i + chunk_len <= len(speech):
+            chunks.append(speech[i:i + chunk_len])
+        elif i < len(speech):  # Last chunk (may be shorter than window size)
+            chunks.append(speech[i:])
+    
+    print(f"Fjöldi búta (Total Chunks): {len(chunks)} (Sliding window with {OVERLAP_SECONDS}s overlap)")
     print("Umritun hafin (Transcription started)...")
     
-    full_transcript = []
+    chunk_texts = []
     start_time = time.time()
 
     # 4. Transcription Loop
@@ -65,9 +106,28 @@ def transcribe_audiobook():
             )
 
         chunk_text = processor.batch_decode(predicted_ids, skip_special_tokens=True)[0]
-        full_transcript.append(chunk_text)
+        chunk_texts.append(chunk_text)
 
-    # 5. Save Results
+    # 5. Intelligent Deduplication: Remove overlapping text
+    full_transcript = []
+    
+    for idx, text in enumerate(chunk_texts):
+        if idx == 0:
+            # First chunk: keep everything
+            full_transcript.append(text)
+        else:
+            # Find where the overlap ends in this chunk
+            prev_text = chunk_texts[idx - 1]
+            skip_words = find_overlap_end(prev_text, text)
+            
+            # Keep only the non-overlapped portion
+            words = text.split()
+            if skip_words < len(words):
+                new_text = " ".join(words[skip_words:])
+                if new_text.strip():  # Only add if there's content
+                    full_transcript.append(new_text)
+
+    # 6. Save Results
     final_text = " ".join(full_transcript)
     output_file = os.path.splitext(audio_path)[0] + "_TEXTI.txt"
     
