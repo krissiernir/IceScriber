@@ -1,0 +1,6 @@
+--- Processing: 001_Daudi_trudsins.mp3 ---
+Done! Saved JSON (source of truth): audio_chapters/001_Daudi_trudsins.mp3.v2.json
+Done! Saved JSON (source of truth): audio_chapters/001_daudi_testv2.mp3.v2.json
+real 321.18
+user 106.31
+sys 65.50
