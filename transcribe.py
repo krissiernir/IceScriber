@@ -23,6 +23,13 @@ def select_file():
     root.attributes('-topmost', True)
     return filedialog.askopenfilename(title="Veldu hljóðbók (Select Audiobook)")
 
+def format_timestamp(seconds):
+    """Convert seconds to HH:MM:SS format."""
+    hours = int(seconds // 3600)
+    minutes = int((seconds % 3600) // 60)
+    secs = int(seconds % 60)
+    return f"{hours:02d}:{minutes:02d}:{secs:02d}"
+
 def find_overlap_end(prev_text, curr_text, min_overlap_words=5):
     """
     Find where prev_text's end overlaps with curr_text's beginning by looking for
@@ -76,16 +83,20 @@ def transcribe_audiobook():
     # This part might take a minute for a very long book
     speech, sr = librosa.load(audio_path, sr=16000)
     
-    # 3. Create sliding window chunks
+    # 3. Create sliding window chunks with timestamps
     chunk_len = int(WINDOW_SIZE_SECONDS * sr)
     stride_len = int(STRIDE_SECONDS * sr)
     chunks = []
+    chunk_times = []  # Track start time of each chunk
     
     for i in range(0, len(speech), stride_len):
+        chunk_start_time = i / sr  # Convert sample index to seconds
         if i + chunk_len <= len(speech):
             chunks.append(speech[i:i + chunk_len])
+            chunk_times.append(chunk_start_time)
         elif i < len(speech):  # Last chunk (may be shorter than window size)
             chunks.append(speech[i:])
+            chunk_times.append(chunk_start_time)
     
     print(f"Fjöldi búta (Total Chunks): {len(chunks)} (Sliding window with {OVERLAP_SECONDS}s overlap)")
     print("Umritun hafin (Transcription started)...")
@@ -108,13 +119,15 @@ def transcribe_audiobook():
         chunk_text = processor.batch_decode(predicted_ids, skip_special_tokens=True)[0]
         chunk_texts.append(chunk_text)
 
-    # 5. Intelligent Deduplication: Remove overlapping text
+    # 5. Intelligent Deduplication: Remove overlapping text and add timestamps
     full_transcript = []
     
     for idx, text in enumerate(chunk_texts):
+        timestamp = format_timestamp(chunk_times[idx])
+        
         if idx == 0:
             # First chunk: keep everything
-            full_transcript.append(text)
+            full_transcript.append(f"[{timestamp}] {text}")
         else:
             # Find where the overlap ends in this chunk
             prev_text = chunk_texts[idx - 1]
@@ -125,10 +138,10 @@ def transcribe_audiobook():
             if skip_words < len(words):
                 new_text = " ".join(words[skip_words:])
                 if new_text.strip():  # Only add if there's content
-                    full_transcript.append(new_text)
+                    full_transcript.append(f"\n[{timestamp}] {new_text}")
 
     # 6. Save Results
-    final_text = " ".join(full_transcript)
+    final_text = "".join(full_transcript)
     output_file = os.path.splitext(audio_path)[0] + "_TEXTI.txt"
     
     with open(output_file, "w", encoding="utf-8") as f:

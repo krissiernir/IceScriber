@@ -17,6 +17,13 @@ WINDOW_SIZE_SECONDS = 30  # Size of each chunk
 STRIDE_SECONDS = 5        # How much to shift for next window (smaller = more overlap)
 OVERLAP_SECONDS = WINDOW_SIZE_SECONDS - STRIDE_SECONDS  # 25 seconds of context
 
+def format_timestamp(seconds):
+    """Convert seconds to HH:MM:SS format."""
+    hours = int(seconds // 3600)
+    minutes = int((seconds % 3600) // 60)
+    secs = int(seconds % 60)
+    return f"{hours:02d}:{minutes:02d}:{secs:02d}"
+
 def find_overlap_end(prev_text, curr_text, min_overlap_words=5):
     """
     Find where prev_text's end overlaps with curr_text's beginning by looking for
@@ -74,12 +81,16 @@ def transcribe_all_chapters():
         chunk_len = int(WINDOW_SIZE_SECONDS * sr)
         stride_len = int(STRIDE_SECONDS * sr)
         chunks = []
+        chunk_times = []  # Track start time of each chunk
         
         for i in range(0, len(speech), stride_len):
+            chunk_start_time = i / sr  # Convert sample index to seconds
             if i + chunk_len <= len(speech):
                 chunks.append(speech[i:i + chunk_len])
+                chunk_times.append(chunk_start_time)
             elif i < len(speech):  # Last chunk (may be shorter than window size)
                 chunks.append(speech[i:])
+                chunk_times.append(chunk_start_time)
         
         chunk_texts = []
         
@@ -94,13 +105,15 @@ def transcribe_all_chapters():
             text = processor.batch_decode(predicted_ids, skip_special_tokens=True)[0]
             chunk_texts.append(text)
 
-        # Intelligent Deduplication: Remove overlapping text
+        # Intelligent Deduplication: Remove overlapping text and add timestamps
         full_chapter_transcript = []
         
         for idx, text in enumerate(chunk_texts):
+            timestamp = format_timestamp(chunk_times[idx])
+            
             if idx == 0:
                 # First chunk: keep everything
-                full_chapter_transcript.append(text)
+                full_chapter_transcript.append(f"[{timestamp}] {text}")
             else:
                 # Find where the overlap ends in this chunk
                 prev_text = chunk_texts[idx - 1]
@@ -111,12 +124,12 @@ def transcribe_all_chapters():
                 if skip_words < len(words):
                     new_text = " ".join(words[skip_words:])
                     if new_text.strip():  # Only add if there's content
-                        full_chapter_transcript.append(new_text)
+                        full_chapter_transcript.append(f"\n[{timestamp}] {new_text}")
 
         # Save this specific chapter
         output_file = audio_path + "_TRANSCRIPT.txt"
         with open(output_file, "w", encoding="utf-8") as f:
-            f.write(" ".join(full_chapter_transcript))
+            f.write("".join(full_chapter_transcript))
         
         print(f"Done! Saved to {output_file}")
 
