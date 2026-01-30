@@ -1,46 +1,0 @@
-Using Device: mps
-🚀 Version 2 - Optimized with SDPA + Anti-Hallucination
-Loading AI model...
-✓ Model loaded with SDPA attention optimization
-Found 30 chapters to transcribe.
-✓ Skipping 001_Daudi_trudsins.mp3 (already transcribed)
-
---- Processing: 001_daudi_testv2.mp3 ---
-Transcribing 001_daudi_testv2.mp3:   0%|          | 0/26 [00:00<?, ?it/s]The attention mask is not set and cannot be inferred from input because pad token is same as eos token. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
-A custom logits processor of type <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> has been passed to `.generate()`, but it was also created in `.generate()`, given its parameterization. The custom <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> will take precedence. Please check the docstring of <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> to see related `.generate()` flags.
-A custom logits processor of type <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> has been passed to `.generate()`, but it was also created in `.generate()`, given its parameterization. The custom <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> will take precedence. Please check the docstring of <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> to see related `.generate()` flags.
-Transcribing 001_daudi_testv2.mp3:   4%|▍         | 1/26 [00:05<02:25,  5.82s/it]Transcribing 001_daudi_testv2.mp3:   8%|▊         | 2/26 [00:10<02:06,  5.26s/it]Transcribing 001_daudi_testv2.mp3:  12%|█▏        | 3/26 [00:15<01:56,  5.05s/it]Transcribing 001_daudi_testv2.mp3:  15%|█▌        | 4/26 [00:20<01:48,  4.94s/it]Transcribing 001_daudi_testv2.mp3:  19%|█▉        | 5/26 [00:24<01:40,  4.81s/it]Transcribing 001_daudi_testv2.mp3:  23%|██▎       | 6/26 [00:29<01:36,  4.80s/it]Transcribing 001_daudi_testv2.mp3:  27%|██▋       | 7/26 [00:34<01:33,  4.91s/it]Transcribing 001_daudi_testv2.mp3:  31%|███       | 8/26 [00:40<01:32,  5.17s/it]Transcribing 001_daudi_testv2.mp3:  35%|███▍      | 9/26 [00:46<01:32,  5.46s/it]Transcribing 001_daudi_testv2.mp3:  38%|███▊      | 10/26 [00:53<01:33,  5.86s/it]Transcribing 001_daudi_testv2.mp3:  42%|████▏     | 11/26 [01:00<01:34,  6.28s/it]Transcribing 001_daudi_testv2.mp3:  46%|████▌     | 12/26 [01:07<01:30,  6.45s/it]Transcribing 001_daudi_testv2.mp3:  50%|█████     | 13/26 [01:14<01:25,  6.57s/it]Transcribing 001_daudi_testv2.mp3:  54%|█████▍    | 14/26 [01:20<01:18,  6.53s/it]Transcribing 001_daudi_testv2.mp3:  58%|█████▊    | 15/26 [01:25<01:06,  6.05s/it]Transcribing 001_daudi_testv2.mp3:  62%|██████▏   | 16/26 [01:31<00:58,  5.90s/it]Transcribing 001_daudi_testv2.mp3:  65%|██████▌   | 17/26 [01:36<00:52,  5.83s/it]Transcribing 001_daudi_testv2.mp3:  69%|██████▉   | 18/26 [01:42<00:45,  5.74s/it]Transcribing 001_daudi_testv2.mp3:  73%|███████▎  | 19/26 [01:47<00:38,  5.57s/it]Transcribing 001_daudi_testv2.mp3:  77%|███████▋  | 20/26 [01:53<00:33,  5.56s/it]Transcribing 001_daudi_testv2.mp3:  81%|████████  | 21/26 [01:58<00:27,  5.45s/it]Transcribing 001_daudi_testv2.mp3:  85%|████████▍ | 22/26 [02:02<00:20,  5.09s/it]Transcribing 001_daudi_testv2.mp3:  88%|████████▊ | 23/26 [02:06<00:14,  4.77s/it]Transcribing 001_daudi_testv2.mp3:  92%|█████████▏| 24/26 [02:09<00:08,  4.29s/it]Transcribing 001_daudi_testv2.mp3:  96%|█████████▌| 25/26 [02:11<00:03,  3.68s/it]Transcribing 001_daudi_testv2.mp3: 100%|██████████| 26/26 [02:13<00:00,  2.92s/it]Transcribing 001_daudi_testv2.mp3: 100%|██████████| 26/26 [02:13<00:00,  5.12s/it]
-Done! Saved JSON (source of truth): audio_chapters/001_daudi_testv2.mp3.v2.json
-       Derived TRANSCRIPT: audio_chapters/001_daudi_testv2.mp3_TRANSCRIPT.v2.txt
-       Derived MARKDOWN:   audio_chapters/001_daudi_testv2.mp3_MARKDOWN.v2.md
-       Derived LLM:        audio_chapters/001_daudi_testv2.mp3_LLM.v2.txt
-✓ Skipping 002_Texti_a_bokarkap.mp3 (already transcribed)
-✓ Skipping 003_1_-_Nott_i_byrju.mp3 (already transcribed)
-✓ Skipping 004_2_-_Foestudagur_.mp3 (already transcribed)
-✓ Skipping 005_3_-_Laugardagur.mp3 (already transcribed)
-✓ Skipping 006_4_-_Sunnudagur.mp3 (already transcribed)
-✓ Skipping 007_5_-_Manudagur._F.mp3 (already transcribed)
-✓ Skipping 008_6_-_thridjudagur.mp3 (already transcribed)
-✓ Skipping 009_7_-_Midvikudagur.mp3 (already transcribed)
-✓ Skipping 010_8_-_Fimmtudagur.mp3 (already transcribed)
-✓ Skipping 011_9_-_Foestudagur.mp3 (already transcribed)
-✓ Skipping 012_10_-_Laugardagur.mp3 (already transcribed)
-✓ Skipping 013_11_-_Sunnudagur.mp3 (already transcribed)
-✓ Skipping 014_12_-_Manudagur.mp3 (already transcribed)
-✓ Skipping 015_13_-_thridjudagu.mp3 (already transcribed)
-✓ Skipping 016_14_-_Midvikudagu.mp3 (already transcribed)
-✓ Skipping 017_15_-_Fimmtudagur.mp3 (already transcribed)
-✓ Skipping 018_16_-_Foestudagur.mp3 (already transcribed)
-✓ Skipping 019_17_-_Laugardagur.mp3 (already transcribed)
-✓ Skipping 020_18_-_Sunnudagur.mp3 (already transcribed)
-✓ Skipping 021_19_-_Manudagur.mp3 (already transcribed)
-✓ Skipping 022_20_-_thridjudagu.mp3 (already transcribed)
-✓ Skipping 023_21_-_Midvikudagu.mp3 (already transcribed)
-✓ Skipping 024_22_-_Fimmtudagur.mp3 (already transcribed)
-✓ Skipping 025_23_-_Foestudagur.mp3 (already transcribed)
-✓ Skipping 026_24_-_Laugardagur.mp3 (already transcribed)
-✓ Skipping 027_25_-_Sunnudagur.mp3 (already transcribed)
-✓ Skipping 028_26_-_Manudagur.mp3 (already transcribed)
-✓ Skipping 029_27_-_Siddegi_um_.mp3 (already transcribed)
-
-✅ ALL CHAPTERS FINISHED!

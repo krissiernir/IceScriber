@@ -1,28 +1,53 @@
-# Virtual Environments
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+
+# Virtual environments
 venv/
 venv_stable/
 .venv/
 
-# Audio and Data (Don't upload audiobooks!)
-audio_chapters/
+# API keys and secrets
+.env
+.env.local
+
+# Audio files (too large for git)
 *.mp3
 *.m4a
 *.wav
 *.flac
+*.ogg
+audio_chapters/
+audio_chapters_english/
 
-# Transcripts
-*_TRANSCRIPT.txt
-*_TIMESTAMPS.txt
-stable_output.txt
-audiobook_transcription.txt
+# Data folders (keep structure, ignore contents)
+data/input/icelandic/*
+data/input/english/*
+data/output/**
+data/databases/*.db
+data/databases/*.db-*
+!data/**/.gitkeep
+!data/**/README.md
 
-# Python cache
-__pycache__/
-*.pyc
+# Logs
+logs/*
+!logs/.gitkeep
 
-# Mac system files
+# OS files
 .DS_Store
+Thumbs.db
 
-# API keys and secrets
-.env
-.env.local
+# IDE
+.vscode/
+.idea/
+
+# Tool configs
+.claude/
+
+# Misc
+*.log
+v1_backup/
