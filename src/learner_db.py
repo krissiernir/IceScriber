@@ -53,12 +53,22 @@ def add_book(
     metadata: Dict = None,
     db_path: str = DB_PATH
 ) -> str:
-    """Add a book to the database. Returns book_id."""
-    book_id = str(uuid.uuid4())
-
+    """Add a book to the database. Returns book_id. If book already exists, returns existing ID."""
     conn = get_connection(db_path)
     cursor = conn.cursor()
 
+    # Return existing book if title+author already present
+    cursor.execute(
+        "SELECT book_id FROM books WHERE title = ? AND (author = ? OR (author IS NULL AND ? IS NULL))",
+        (title, author, author)
+    )
+    existing = cursor.fetchone()
+    if existing:
+        conn.close()
+        print(f"✓ Book already exists: {title} (ID: {existing['book_id']})")
+        return existing['book_id']
+
+    book_id = str(uuid.uuid4())
     cursor.execute("""
         INSERT INTO books (book_id, title, author, genre, language, transcript_source, metadata)
         VALUES (?, ?, ?, ?, ?, ?, ?)

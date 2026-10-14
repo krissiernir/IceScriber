@@ -4,12 +4,16 @@ Answers questions by retrieving context from database and using LLM
 
 Usage:
     python learner_chat_intelligent.py
+    python learner_chat_intelligent.py --chapters 5,6
+    python learner_chat_intelligent.py --book-dir data/books/the-hate-u-give
+    python learner_chat_intelligent.py --book-dir data/books/the-hate-u-give --chapters 1,2,3
 """
 
 import sys
 import sqlite3
 import json
 import os
+import argparse
 from pathlib import Path
 from typing import List, Dict, Optional
 from dotenv import load_dotenv
@@ -28,11 +32,12 @@ if env_path.exists():
 class IntelligentLearnerChat:
     """Intelligent Q&A using database + Gemini LLM."""
 
-    def __init__(self, db_path: str = str(LEARNER_DB)):
+    def __init__(self, db_path: str = str(LEARNER_DB), chapters: Optional[List[int]] = None):
         self.db_path = db_path
         self.book_id = None
         self.book_title = None
         self.book_author = None
+        self.chapters = chapters  # Filter to specific chapters
 
         # Initialize Gemini
         api_key = os.getenv("GEMINI_API_KEY")
@@ -64,21 +69,29 @@ class IntelligentLearnerChat:
             self.book_author = row['author']
             print(f"✓ Loaded: {self.book_title} by {self.book_author}\n")
 
+    def _chapter_filter_sql(self, chapter_col: str = "c.chapter_number") -> tuple:
+        """Build SQL WHERE clause and params for chapter filtering."""
+        if self.chapters:
+            placeholders = ",".join("?" * len(self.chapters))
+            return f"AND {chapter_col} IN ({placeholders})", list(self.chapters)
+        return "", []
+
     def gather_context(self, question: str) -> str:
         """Gather relevant context from database for the question."""
         context_parts = []
+        chapter_filter, chapter_params = self._chapter_filter_sql()
 
-        # Get all chapter summaries
         conn = self._get_connection()
         cursor = conn.cursor()
 
-        cursor.execute("""
+        # Get chapter summaries (filtered)
+        cursor.execute(f"""
             SELECT c.chapter_number, c.title, cs.summary_text
             FROM chapters c
             LEFT JOIN chapter_summaries cs ON c.chapter_id = cs.chapter_id
-            WHERE cs.summary_text IS NOT NULL
+            WHERE cs.summary_text IS NOT NULL {chapter_filter}
             ORDER BY c.chapter_number
-        """)
+        """, chapter_params)
 
         summaries = cursor.fetchall()
         if summaries:
@@ -87,14 +100,25 @@ class IntelligentLearnerChat:
                 context_parts.append(f"Chapter {row['chapter_number']} ({row['title']}): {row['summary_text']}")
             context_parts.append("")
 
-        # Get all characters
-        cursor.execute("""
-            SELECT DISTINCT name, occupation, age, traits
-            FROM characters
-            WHERE book_id = ?
-            ORDER BY first_appearance_chapter
-            LIMIT 50
-        """, (self.book_id,))
+        # Get characters (filtered to those appearing in selected chapters)
+        if self.chapters:
+            placeholders = ",".join("?" * len(self.chapters))
+            cursor.execute(f"""
+                SELECT DISTINCT ch.name, ch.occupation, ch.age, ch.traits
+                FROM characters ch
+                WHERE ch.book_id = ?
+                AND ch.first_appearance_chapter IN ({placeholders})
+                ORDER BY ch.first_appearance_chapter
+                LIMIT 50
+            """, [self.book_id] + list(self.chapters))
+        else:
+            cursor.execute("""
+                SELECT DISTINCT name, occupation, age, traits
+                FROM characters
+                WHERE book_id = ?
+                ORDER BY first_appearance_chapter
+                LIMIT 50
+            """, (self.book_id,))
 
         characters = cursor.fetchall()
         if characters:
@@ -114,14 +138,34 @@ class IntelligentLearnerChat:
                 context_parts.append(char_info)
             context_parts.append("")
 
-        # Get timeline events
-        cursor.execute("""
+        # Get character events (filtered)
+        if self.chapters:
+            placeholders = ",".join("?" * len(self.chapters))
+            cursor.execute(f"""
+                SELECT ch.name, ce.event_description
+                FROM character_events ce
+                JOIN characters ch ON ce.character_id = ch.character_id
+                JOIN chapters c ON ce.chapter_id = c.chapter_id
+                WHERE c.chapter_number IN ({placeholders})
+                ORDER BY c.chapter_number
+            """, list(self.chapters))
+
+            char_events = cursor.fetchall()
+            if char_events:
+                context_parts.append("CHARACTER ACTIONS IN THESE CHAPTERS:")
+                for row in char_events:
+                    context_parts.append(f"- {row['name']}: {row['event_description']}")
+                context_parts.append("")
+
+        # Get timeline events (filtered)
+        cursor.execute(f"""
             SELECT c.chapter_number, te.event_date, te.location, te.event_description
             FROM timeline_events te
             JOIN chapters c ON te.chapter_id = c.chapter_id
+            WHERE 1=1 {chapter_filter}
             ORDER BY c.chapter_number
             LIMIT 30
-        """)
+        """, chapter_params)
 
         events = cursor.fetchall()
         if events:
@@ -146,8 +190,12 @@ class IntelligentLearnerChat:
         context = self.gather_context(question)
 
         # Build prompt for Gemini
-        prompt = f"""You are a helpful assistant answering questions about the Icelandic book "{self.book_title}" by {self.book_author}.
+        chapter_note = ""
+        if self.chapters:
+            chapter_note = f"\nNote: The user is focusing on chapters {', '.join(str(c) for c in self.chapters)}. Prioritize information from these chapters.\n"
 
+        prompt = f"""You are a helpful assistant answering questions about the book "{self.book_title}" by {self.book_author}.
+{chapter_note}
 Use the following information from the book to answer the user's question:
 
 {context}
@@ -180,6 +228,8 @@ Answer:"""
         print("="*60)
         print("  📚 Intelligent Q&A with Gemini")
         print("="*60)
+        if self.chapters:
+            print(f"\n  Focused on chapters: {', '.join(str(c) for c in self.chapters)}")
         print("\nAsk questions about the book in English or Icelandic")
         print("Type 'quit' to exit\n")
 
@@ -206,10 +256,26 @@ Answer:"""
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Intelligent Q&A for AudiobookLearner")
+    parser.add_argument("--chapters", type=str, default=None,
+                        help="Comma-separated chapter numbers to focus on (e.g., 5,6)")
+    parser.add_argument("--book-dir", type=str, default=None,
+                        help="Book directory (e.g., data/books/the-hate-u-give). Uses <dir>/learner.db")
+    args = parser.parse_args()
+
+    chapters = None
+    if args.chapters:
+        chapters = [int(c.strip()) for c in args.chapters.split(",")]
+
+    if args.book_dir:
+        db_path = str(Path(args.book_dir) / "learner.db")
+    else:
+        db_path = str(LEARNER_DB)
+
     try:
-        chat = IntelligentLearnerChat()
+        chat = IntelligentLearnerChat(db_path=db_path, chapters=chapters)
         chat.run()
     except ValueError as e:
         print(f"❌ {e}")
     except FileNotFoundError:
-        print(f"❌ Database not found at {LEARNER_DB}. Run learner_ingest.py first.")
+        print(f"❌ Database not found at {db_path}. Run learner_ingest.py first.")
