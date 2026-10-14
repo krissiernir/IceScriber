@@ -20,8 +20,10 @@ SRC_DIR = PROJECT_ROOT / "src"
 BOOKS_DIR = DATA_DIR / "books"
 INPUT_ICELANDIC = DATA_DIR / "input" / "icelandic"
 INPUT_ENGLISH = DATA_DIR / "input" / "english"
+INPUT_MEETINGS = DATA_DIR / "input" / "meetings"
 OUTPUT_ICELANDIC = DATA_DIR / "output" / "icelandic"
 OUTPUT_ENGLISH = DATA_DIR / "output" / "english"
+OUTPUT_MEETINGS = DATA_DIR / "output" / "meetings"
 DATABASES_DIR = DATA_DIR / "databases"
 
 # Database files
