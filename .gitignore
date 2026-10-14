@@ -30,8 +30,20 @@ data/input/english/*
 data/output/**
 data/databases/*.db
 data/databases/*.db-*
+
+# Book folders (audio, transcripts, databases)
+data/books/*/audio/*
+data/books/*/learner.db
+data/books/*/learner.db-*
+# Book text stays local (copyrighted, repo is public)
+data/books/*/transcripts/
+data/books/*/backup/
+data/books/*/markdown/
+
+# Keep directory structure and chapter mappings
 !data/**/.gitkeep
 !data/**/README.md
+!data/books/*/chapter_mapping.json
 
 # Logs
 logs/*

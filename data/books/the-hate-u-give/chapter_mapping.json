@@ -1,0 +1,267 @@
+{
+  "book_title": "The Hate U Give",
+  "author": "Angie Thomas",
+  "genre": "Fiction",
+  "language": "english",
+  "chapters": [
+    {
+      "number": 1,
+      "title": "01 the hate u give",
+      "files": [
+        "01_the_hate_u_give.json"
+      ]
+    },
+    {
+      "number": 2,
+      "title": "02 information about swedish copyright law",
+      "files": [
+        "02_information_about_swedish_copyright_law.json"
+      ]
+    },
+    {
+      "number": 3,
+      "title": "03 back cover text",
+      "files": [
+        "03_back_cover_text.json"
+      ]
+    },
+    {
+      "number": 4,
+      "title": "04 part 1 when it happens",
+      "files": [
+        "04_part_1_when_it_happens.json"
+      ]
+    },
+    {
+      "number": 5,
+      "title": "05 one",
+      "files": [
+        "05_one.json"
+      ]
+    },
+    {
+      "number": 6,
+      "title": "06 two",
+      "files": [
+        "06_two.json"
+      ]
+    },
+    {
+      "number": 7,
+      "title": "07 three",
+      "files": [
+        "07_three.json"
+      ]
+    },
+    {
+      "number": 8,
+      "title": "08 four",
+      "files": [
+        "08_four.json"
+      ]
+    },
+    {
+      "number": 9,
+      "title": "09 five",
+      "files": [
+        "09_five.json"
+      ]
+    },
+    {
+      "number": 10,
+      "title": "10 six",
+      "files": [
+        "10_six.json"
+      ]
+    },
+    {
+      "number": 11,
+      "title": "11 seven",
+      "files": [
+        "11_seven.json"
+      ]
+    },
+    {
+      "number": 12,
+      "title": "12 eight",
+      "files": [
+        "12_eight.json"
+      ]
+    },
+    {
+      "number": 13,
+      "title": "13 nine",
+      "files": [
+        "13_nine.json"
+      ]
+    },
+    {
+      "number": 14,
+      "title": "14 ten",
+      "files": [
+        "14_ten.json"
+      ]
+    },
+    {
+      "number": 15,
+      "title": "15 eleven",
+      "files": [
+        "15_eleven.json"
+      ]
+    },
+    {
+      "number": 16,
+      "title": "16 twelve",
+      "files": [
+        "16_twelve.json"
+      ]
+    },
+    {
+      "number": 17,
+      "title": "17 thirteen",
+      "files": [
+        "17_thirteen.json"
+      ]
+    },
+    {
+      "number": 18,
+      "title": "18 fourteen",
+      "files": [
+        "18_fourteen.json"
+      ]
+    },
+    {
+      "number": 19,
+      "title": "19 fifteen",
+      "files": [
+        "19_fifteen.json"
+      ]
+    },
+    {
+      "number": 20,
+      "title": "20 part 2 five weeks after it",
+      "files": [
+        "20_part_2_five_weeks_after_it.json"
+      ]
+    },
+    {
+      "number": 21,
+      "title": "21 sixteen",
+      "files": [
+        "21_sixteen.json"
+      ]
+    },
+    {
+      "number": 22,
+      "title": "22 seventeen",
+      "files": [
+        "22_seventeen.json"
+      ]
+    },
+    {
+      "number": 23,
+      "title": "23 eighteen",
+      "files": [
+        "23_eighteen.json"
+      ]
+    },
+    {
+      "number": 24,
+      "title": "24 nineteen",
+      "files": [
+        "24_nineteen.json"
+      ]
+    },
+    {
+      "number": 25,
+      "title": "25 part 3 eight weeks it",
+      "files": [
+        "25_part_3_eight_weeks_it.json"
+      ]
+    },
+    {
+      "number": 26,
+      "title": "26 twenty",
+      "files": [
+        "26_twenty.json"
+      ]
+    },
+    {
+      "number": 27,
+      "title": "27 part 4 ten weeks after it",
+      "files": [
+        "27_part_4_ten_weeks_after_it.json"
+      ]
+    },
+    {
+      "number": 28,
+      "title": "28 twenty one",
+      "files": [
+        "28_twenty_one.json"
+      ]
+    },
+    {
+      "number": 29,
+      "title": "29 part 5 thirteen weeks after it the",
+      "files": [
+        "29_part_5_thirteen_weeks_after_it_the.json"
+      ]
+    },
+    {
+      "number": 30,
+      "title": "30 twenty two",
+      "files": [
+        "30_twenty_two.json"
+      ]
+    },
+    {
+      "number": 31,
+      "title": "31 twenty three",
+      "files": [
+        "31_twenty_three.json"
+      ]
+    },
+    {
+      "number": 32,
+      "title": "32 twenty four",
+      "files": [
+        "32_twenty_four.json"
+      ]
+    },
+    {
+      "number": 33,
+      "title": "33 twenty five",
+      "files": [
+        "33_twenty_five.json"
+      ]
+    },
+    {
+      "number": 34,
+      "title": "34 twenty six",
+      "files": [
+        "34_twenty_six.json"
+      ]
+    },
+    {
+      "number": 35,
+      "title": "35 acknowledgments",
+      "files": [
+        "35_acknowledgments.json"
+      ]
+    },
+    {
+      "number": 36,
+      "title": "36 angie thomas",
+      "files": [
+        "36_angie_thomas.json"
+      ]
+    },
+    {
+      "number": 37,
+      "title": "37 information about the publisher",
+      "files": [
+        "37_information_about_the_publisher.json"
+      ]
+    }
+  ]
+}

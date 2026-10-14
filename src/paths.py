@@ -17,6 +17,7 @@ SCRIPTS_DIR = PROJECT_ROOT / "scripts"
 SRC_DIR = PROJECT_ROOT / "src"
 
 # Data subdirectories
+BOOKS_DIR = DATA_DIR / "books"
 INPUT_ICELANDIC = DATA_DIR / "input" / "icelandic"
 INPUT_ENGLISH = DATA_DIR / "input" / "english"
 OUTPUT_ICELANDIC = DATA_DIR / "output" / "icelandic"
@@ -31,6 +32,6 @@ TRANSCRIPTS_DB = DATABASES_DIR / "transcripts.db"
 CHAPTER_MAPPING = CONFIG_DIR / "chapter_mapping.json"
 
 # Ensure directories exist on import
-for d in [INPUT_ICELANDIC, INPUT_ENGLISH, OUTPUT_ICELANDIC, OUTPUT_ENGLISH,
+for d in [BOOKS_DIR, INPUT_ICELANDIC, INPUT_ENGLISH, OUTPUT_ICELANDIC, OUTPUT_ENGLISH,
           DATABASES_DIR, LOGS_DIR]:
     d.mkdir(parents=True, exist_ok=True)

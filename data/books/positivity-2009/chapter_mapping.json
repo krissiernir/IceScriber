@@ -1,0 +1,834 @@
+{
+  "book_title": "Positivity",
+  "author": "Barbara Fredrickson",
+  "genre": "Non-fiction",
+  "language": "english",
+  "chapters": [
+    {
+      "number": 1,
+      "title": "001 positivity by barbara fredrickson",
+      "files": [
+        "001_positivity_by_barbara_fredrickson.json"
+      ]
+    },
+    {
+      "number": 2,
+      "title": "002 library of congress annotation",
+      "files": [
+        "002_library_of_congress_annotation.json"
+      ]
+    },
+    {
+      "number": 3,
+      "title": "003 contents",
+      "files": [
+        "003_contents.json"
+      ]
+    },
+    {
+      "number": 4,
+      "title": "004 part i the good news about positivity",
+      "files": [
+        "004_part_i_the_good_news_about_positivity.json"
+      ]
+    },
+    {
+      "number": 5,
+      "title": "005 chapter 1 waking up to positivity",
+      "files": [
+        "005_chapter_1_waking_up_to_positivity.json"
+      ]
+    },
+    {
+      "number": 6,
+      "title": "006 take 1",
+      "files": [
+        "006_take_1.json"
+      ]
+    },
+    {
+      "number": 7,
+      "title": "007 take 2",
+      "files": [
+        "007_take_2.json"
+      ]
+    },
+    {
+      "number": 8,
+      "title": "008 chapter 2 positivity means not ends",
+      "files": [
+        "008_chapter_2_positivity_means_not_ends.json"
+      ]
+    },
+    {
+      "number": 9,
+      "title": "009 what good is feeling good",
+      "files": [
+        "009_what_good_is_feeling_good.json"
+      ]
+    },
+    {
+      "number": 10,
+      "title": "010 the old view positivity as negativity warm",
+      "files": [
+        "010_the_old_view_positivity_as_negativity_warm.json"
+      ]
+    },
+    {
+      "number": 11,
+      "title": "011 the new view positivity broadens and build",
+      "files": [
+        "011_the_new_view_positivity_broadens_and_build.json"
+      ]
+    },
+    {
+      "number": 12,
+      "title": "012 like ancestors like us",
+      "files": [
+        "012_like_ancestors_like_us.json"
+      ]
+    },
+    {
+      "number": 13,
+      "title": "013 live longer live stronger",
+      "files": [
+        "013_live_longer_live_stronger.json"
+      ]
+    },
+    {
+      "number": 14,
+      "title": "014 safety in numbers",
+      "files": [
+        "014_safety_in_numbers.json"
+      ]
+    },
+    {
+      "number": 15,
+      "title": "015 positivity is it un american",
+      "files": [
+        "015_positivity_is_it_un-american.json"
+      ]
+    },
+    {
+      "number": 16,
+      "title": "016 how much is enough",
+      "files": [
+        "016_how_much_is_enough.json"
+      ]
+    },
+    {
+      "number": 17,
+      "title": "017 no yellow smiley faces",
+      "files": [
+        "017_no_yellow_smiley_faces.json"
+      ]
+    },
+    {
+      "number": 18,
+      "title": "018 the view from here",
+      "files": [
+        "018_the_view_from_here.json"
+      ]
+    },
+    {
+      "number": 19,
+      "title": "019 chapter 3 what is positivity",
+      "files": [
+        "019_chapter_3_what_is_positivity.json"
+      ]
+    },
+    {
+      "number": 20,
+      "title": "020 ten forms of positivity",
+      "files": [
+        "020_ten_forms_of_positivity.json"
+      ]
+    },
+    {
+      "number": 21,
+      "title": "021 thinking makes it so",
+      "files": [
+        "021_thinking_makes_it_so.json"
+      ]
+    },
+    {
+      "number": 22,
+      "title": "022 the view from here",
+      "files": [
+        "022_the_view_from_here.json"
+      ]
+    },
+    {
+      "number": 23,
+      "title": "023 chapter 4 broaden your mind",
+      "files": [
+        "023_chapter_4_broaden_your_mind.json"
+      ]
+    },
+    {
+      "number": 24,
+      "title": "024 what a difference a broadened mind makes",
+      "files": [
+        "024_what_a_difference_a_broadened_mind_makes.json"
+      ]
+    },
+    {
+      "number": 25,
+      "title": "025 upward spirals within you",
+      "files": [
+        "025_upward_spirals_within_you.json"
+      ]
+    },
+    {
+      "number": 26,
+      "title": "026 from me to we",
+      "files": [
+        "026_from_me_to_we.json"
+      ]
+    },
+    {
+      "number": 27,
+      "title": "027 we all look the same to me",
+      "files": [
+        "027_we_all_look_the_same_to_me.json"
+      ]
+    },
+    {
+      "number": 28,
+      "title": "028 upward spirals surround you",
+      "files": [
+        "028_upward_spirals_surround_you.json"
+      ]
+    },
+    {
+      "number": 29,
+      "title": "029 connecting to something larger",
+      "files": [
+        "029_connecting_to_something_larger.json"
+      ]
+    },
+    {
+      "number": 30,
+      "title": "030 the view from here",
+      "files": [
+        "030_the_view_from_here.json"
+      ]
+    },
+    {
+      "number": 31,
+      "title": "031 chapter 5 build your best future",
+      "files": [
+        "031_chapter_5_build_your_best_future.json"
+      ]
+    },
+    {
+      "number": 32,
+      "title": "032 nina s transformation",
+      "files": [
+        "032_nina_s_transformation.json"
+      ]
+    },
+    {
+      "number": 33,
+      "title": "033 safety in numbers the open heart study",
+      "files": [
+        "033_safety_in_numbers_the_open_heart_study.json"
+      ]
+    },
+    {
+      "number": 34,
+      "title": "034 what are you gaining",
+      "files": [
+        "034_what_are_you_gaining.json"
+      ]
+    },
+    {
+      "number": 35,
+      "title": "035 the view from here",
+      "files": [
+        "035_the_view_from_here.json"
+      ]
+    },
+    {
+      "number": 36,
+      "title": "036 chapter 6 bounce back from life s challeng",
+      "files": [
+        "036_chapter_6_bounce_back_from_life_s_challeng.json"
+      ]
+    },
+    {
+      "number": 37,
+      "title": "037 serendipitous science",
+      "files": [
+        "037_serendipitous_science.json"
+      ]
+    },
+    {
+      "number": 38,
+      "title": "038 the heart of resilience",
+      "files": [
+        "038_the_heart_of_resilience.json"
+      ]
+    },
+    {
+      "number": 39,
+      "title": "039 the brain of resilience",
+      "files": [
+        "039_the_brain_of_resilience.json"
+      ]
+    },
+    {
+      "number": 40,
+      "title": "040 building resilience",
+      "files": [
+        "040_building_resilience.json"
+      ]
+    },
+    {
+      "number": 41,
+      "title": "041 up close and personal",
+      "files": [
+        "041_up_close_and_personal.json"
+      ]
+    },
+    {
+      "number": 42,
+      "title": "042 the view from here",
+      "files": [
+        "042_the_view_from_here.json"
+      ]
+    },
+    {
+      "number": 43,
+      "title": "043 chapter 7 the positivity ratio",
+      "files": [
+        "043_chapter_7_the_positivity_ratio.json"
+      ]
+    },
+    {
+      "number": 44,
+      "title": "044 match made",
+      "files": [
+        "044_match_made.json"
+      ]
+    },
+    {
+      "number": 45,
+      "title": "045 the butterfly in the boardroom",
+      "files": [
+        "045_the_butterfly_in_the_boardroom.json"
+      ]
+    },
+    {
+      "number": 46,
+      "title": "046 math takes the driver s seat",
+      "files": [
+        "046_math_takes_the_driver_s_seat.json"
+      ]
+    },
+    {
+      "number": 47,
+      "title": "047 Putting Math to the Test",
+      "files": [
+        "047_putting_math_to_the_test.json"
+      ]
+    },
+    {
+      "number": 48,
+      "title": "048 more data more support",
+      "files": [
+        "048_more_data_more_support.json"
+      ]
+    },
+    {
+      "number": 49,
+      "title": "049 now you see it now you don t",
+      "files": [
+        "049_now_you_see_it_now_you_don_t.json"
+      ]
+    },
+    {
+      "number": 50,
+      "title": "050 11 to 1 another tipping point",
+      "files": [
+        "050_11_to_1_another_tipping_point.json"
+      ]
+    },
+    {
+      "number": 51,
+      "title": "051 the view from here",
+      "files": [
+        "051_the_view_from_here.json"
+      ]
+    },
+    {
+      "number": 52,
+      "title": "052 part ii raise your ratio",
+      "files": [
+        "052_part_ii_raise_your_ratio.json"
+      ]
+    },
+    {
+      "number": 53,
+      "title": "053 chapter 8 where are you now",
+      "files": [
+        "053_chapter_8_where_are_you_now.json"
+      ]
+    },
+    {
+      "number": 54,
+      "title": "054 POSITIVITY SELF TEST",
+      "files": [
+        "054_positivity_self_test.json"
+      ]
+    },
+    {
+      "number": 55,
+      "title": "055 zoom out weigh in often",
+      "files": [
+        "055_zoom_out_weigh_in_often.json"
+      ]
+    },
+    {
+      "number": 56,
+      "title": "056 number cruncher at your service",
+      "files": [
+        "056_number-cruncher_at_your_service.json"
+      ]
+    },
+    {
+      "number": 57,
+      "title": "057 zoom in an archaeological dig into a singl",
+      "files": [
+        "057_zoom_in_an_archaeological_dig_into_a_singl.json"
+      ]
+    },
+    {
+      "number": 58,
+      "title": "058 scoring your day reconstruction",
+      "files": [
+        "058_scoring_your_day_reconstruction.json"
+      ]
+    },
+    {
+      "number": 59,
+      "title": "059 putting your scores in context",
+      "files": [
+        "059_putting_your_scores_in_context.json"
+      ]
+    },
+    {
+      "number": 60,
+      "title": "060 moving a river",
+      "files": [
+        "060_moving_a_river.json"
+      ]
+    },
+    {
+      "number": 61,
+      "title": "061 embark on change",
+      "files": [
+        "061_embark_on_change.json"
+      ]
+    },
+    {
+      "number": 62,
+      "title": "062 the view from here",
+      "files": [
+        "062_the_view_from_here.json"
+      ]
+    },
+    {
+      "number": 63,
+      "title": "063 chapter 9 decrease negativity",
+      "files": [
+        "063_chapter_9_decrease_negativity.json"
+      ]
+    },
+    {
+      "number": 64,
+      "title": "064 dispute negative thinking",
+      "files": [
+        "064_dispute_negative_thinking.json"
+      ]
+    },
+    {
+      "number": 65,
+      "title": "065 break the grip of rumination",
+      "files": [
+        "065_break_the_grip_of_rumination.json"
+      ]
+    },
+    {
+      "number": 66,
+      "title": "066 become more mindful",
+      "files": [
+        "066_become_more_mindful.json"
+      ]
+    },
+    {
+      "number": 67,
+      "title": "067 defuse your negativity land mines",
+      "files": [
+        "067_defuse_your_negativity_land_mines.json"
+      ]
+    },
+    {
+      "number": 68,
+      "title": "068 assess your media diet",
+      "files": [
+        "068_assess_your_media_diet.json"
+      ]
+    },
+    {
+      "number": 69,
+      "title": "069 find substitutes for gossip and sarcasm",
+      "files": [
+        "069_find_substitutes_for_gossip_and_sarcasm.json"
+      ]
+    },
+    {
+      "number": 70,
+      "title": "070 dealing with negative people",
+      "files": [
+        "070_dealing_with_negative_people.json"
+      ]
+    },
+    {
+      "number": 71,
+      "title": "071 the view from here",
+      "files": [
+        "071_the_view_from_here.json"
+      ]
+    },
+    {
+      "number": 72,
+      "title": "072 chapter 10 increase positivity",
+      "files": [
+        "072_chapter_10_increase_positivity.json"
+      ]
+    },
+    {
+      "number": 73,
+      "title": "073 sincerity matters",
+      "files": [
+        "073_sincerity_matters.json"
+      ]
+    },
+    {
+      "number": 74,
+      "title": "074 enter positive psychology",
+      "files": [
+        "074_enter_positive_psychology.json"
+      ]
+    },
+    {
+      "number": 75,
+      "title": "075 find positive meaning",
+      "files": [
+        "075_find_positive_meaning.json"
+      ]
+    },
+    {
+      "number": 76,
+      "title": "076 savor goodness",
+      "files": [
+        "076_savor_goodness.json"
+      ]
+    },
+    {
+      "number": 77,
+      "title": "077 count your blessings",
+      "files": [
+        "077_count_your_blessings.json"
+      ]
+    },
+    {
+      "number": 78,
+      "title": "078 kindness counts",
+      "files": [
+        "078_kindness_counts.json"
+      ]
+    },
+    {
+      "number": 79,
+      "title": "079 follow your passions",
+      "files": [
+        "079_follow_your_passions.json"
+      ]
+    },
+    {
+      "number": 80,
+      "title": "080 dream about your future",
+      "files": [
+        "080_dream_about_your_future.json"
+      ]
+    },
+    {
+      "number": 81,
+      "title": "081 apply your strengths",
+      "files": [
+        "081_apply_your_strengths.json"
+      ]
+    },
+    {
+      "number": 82,
+      "title": "082 connect with others",
+      "files": [
+        "082_connect_with_others.json"
+      ]
+    },
+    {
+      "number": 83,
+      "title": "083 connect with nature",
+      "files": [
+        "083_connect_with_nature.json"
+      ]
+    },
+    {
+      "number": 84,
+      "title": "084 open your mind",
+      "files": [
+        "084_open_your_mind.json"
+      ]
+    },
+    {
+      "number": 85,
+      "title": "085 open your heart",
+      "files": [
+        "085_open_your_heart.json"
+      ]
+    },
+    {
+      "number": 86,
+      "title": "086 the view from here",
+      "files": [
+        "086_the_view_from_here.json"
+      ]
+    },
+    {
+      "number": 87,
+      "title": "087 chapter 11 a new toolkit",
+      "files": [
+        "087_chapter_11_a_new_toolkit.json"
+      ]
+    },
+    {
+      "number": 88,
+      "title": "088 tool 1 be open",
+      "files": [
+        "088_tool_1_be_open.json"
+      ]
+    },
+    {
+      "number": 89,
+      "title": "089 tool 2 create high quality connections",
+      "files": [
+        "089_tool_2_create_high-quality_connections.json"
+      ]
+    },
+    {
+      "number": 90,
+      "title": "090 tool 3 cultivate kindness",
+      "files": [
+        "090_tool_3_cultivate_kindness.json"
+      ]
+    },
+    {
+      "number": 91,
+      "title": "091 tool 4 develop distractions",
+      "files": [
+        "091_tool_4_develop_distractions.json"
+      ]
+    },
+    {
+      "number": 92,
+      "title": "092 tool 5 dispute negative thinking",
+      "files": [
+        "092_tool_5_dispute_negative_thinking.json"
+      ]
+    },
+    {
+      "number": 93,
+      "title": "093 tool 6 find nearby nature",
+      "files": [
+        "093_tool_6_find_nearby_nature.json"
+      ]
+    },
+    {
+      "number": 94,
+      "title": "094 tool 7 learn and apply your strengths",
+      "files": [
+        "094_tool_7_learn_and_apply_your_strengths.json"
+      ]
+    },
+    {
+      "number": 95,
+      "title": "095 tool 8 meditate mindfully",
+      "files": [
+        "095_tool_8_meditate_mindfully.json"
+      ]
+    },
+    {
+      "number": 96,
+      "title": "096 tool 9 meditate on loving kindness",
+      "files": [
+        "096_tool_9_meditate_on_loving-kindness.json"
+      ]
+    },
+    {
+      "number": 97,
+      "title": "097 tool 10 ritualize gratitude",
+      "files": [
+        "097_tool_10_ritualize_gratitude.json"
+      ]
+    },
+    {
+      "number": 98,
+      "title": "098 tool 11 savor positivity",
+      "files": [
+        "098_tool_11_savor_positivity.json"
+      ]
+    },
+    {
+      "number": 99,
+      "title": "099 tool 12 visualize your future",
+      "files": [
+        "099_tool_12_visualize_your_future.json"
+      ]
+    },
+    {
+      "number": 100,
+      "title": "100 personalize your self study",
+      "files": [
+        "100_personalize_your_self-study.json"
+      ]
+    },
+    {
+      "number": 101,
+      "title": "101 hunt and gather",
+      "files": [
+        "101_hunt_and_gather.json"
+      ]
+    },
+    {
+      "number": 102,
+      "title": "102 build your own",
+      "files": [
+        "102_build_your_own.json"
+      ]
+    },
+    {
+      "number": 103,
+      "title": "103 how to use your portfolios",
+      "files": [
+        "103_how_to_use_your_portfolios.json"
+      ]
+    },
+    {
+      "number": 104,
+      "title": "104 the view from here",
+      "files": [
+        "104_the_view_from_here.json"
+      ]
+    },
+    {
+      "number": 105,
+      "title": "105 chapter 12 future forecast flourishing",
+      "files": [
+        "105_chapter_12_future_forecast_flourishing.json"
+      ]
+    },
+    {
+      "number": 106,
+      "title": "106 fact 1 positivity feels good",
+      "files": [
+        "106_fact_1_positivity_feels_good.json"
+      ]
+    },
+    {
+      "number": 107,
+      "title": "107 fact 2 positivity broadens minds",
+      "files": [
+        "107_fact_2_positivity_broadens_minds.json"
+      ]
+    },
+    {
+      "number": 108,
+      "title": "108 fact 3 positivity builds resources",
+      "files": [
+        "108_fact_3_positivity_builds_resources.json"
+      ]
+    },
+    {
+      "number": 109,
+      "title": "109 fact 4 positivity fuels resilience",
+      "files": [
+        "109_fact_4_positivity_fuels_resilience.json"
+      ]
+    },
+    {
+      "number": 110,
+      "title": "110 fact 5 positivity ratios above 3 to 1 fore",
+      "files": [
+        "110_fact_5_positivity_ratios_above_3_to_1_fore.json"
+      ]
+    },
+    {
+      "number": 111,
+      "title": "111 fact 6 people can raise their positivity r",
+      "files": [
+        "111_fact_6_people_can_raise_their_positivity_r.json"
+      ]
+    },
+    {
+      "number": 112,
+      "title": "112 allowing the facts to dance",
+      "files": [
+        "112_allowing_the_facts_to_dance.json"
+      ]
+    },
+    {
+      "number": 113,
+      "title": "113 karma unpacked",
+      "files": [
+        "113_karma_unpacked.json"
+      ]
+    },
+    {
+      "number": 114,
+      "title": "114 the view from here choose the upward spira",
+      "files": [
+        "114_the_view_from_here_choose_the_upward_spira.json"
+      ]
+    },
+    {
+      "number": 115,
+      "title": "115 Appendix POSITIVITY SELF TEST",
+      "files": [
+        "115_appendix_positivity_self_test.json"
+      ]
+    },
+    {
+      "number": 116,
+      "title": "116 recommended resources",
+      "files": [
+        "116_recommended_resources.json"
+      ]
+    },
+    {
+      "number": 117,
+      "title": "117 acknowledgments",
+      "files": [
+        "117_acknowledgments.json"
+      ]
+    },
+    {
+      "number": 118,
+      "title": "118 end of positivity by barbara fredrickson",
+      "files": [
+        "118_end_of_positivity_by_barbara_fredrickson.json"
+      ]
+    }
+  ]
+}
