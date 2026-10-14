@@ -12,9 +12,11 @@ Features:
 
 Usage:
     python chapterbatch_english.py
+    python chapterbatch_english.py --book-dir data/books/the-hate-u-give
 """
 
 import sys
+import argparse
 import torch
 from transformers import AutoModelForSpeechSeq2Seq, AutoProcessor, pipeline
 import librosa
@@ -28,7 +30,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent / "src"))
 from paths import INPUT_ENGLISH
 
 # --- SETTINGS ---
-INPUT_FOLDER = str(INPUT_ENGLISH)
+DEFAULT_INPUT_FOLDER = str(INPUT_ENGLISH)
 MODEL_ID = "distil-whisper/distil-large-v3"  # 6x faster, 50% smaller
 
 # Sliding Window Settings (using pipeline's built-in chunking)
@@ -144,11 +146,12 @@ def format_llm_optimized(text):
 
     return text_output
 
-def transcribe_all_chapters():
+def transcribe_all_chapters(input_folder: str = DEFAULT_INPUT_FOLDER, book_dir: Path = None):
     # 1. Setup Device
     device = "mps" if torch.backends.mps.is_available() else "cpu"
     print(f"Using Device: {device}")
     print(f"🚀 IceScriber English Edition - Distil-Whisper Optimized")
+    INPUT_FOLDER = input_folder
 
     # 2. Load AI with optimizations
     print("Loading Distil-Whisper model...")
@@ -191,9 +194,20 @@ def transcribe_all_chapters():
     print(f"  Using: {torch_dtype}")
     print(f"  Chunk size: {CHUNK_LENGTH_S}s with {STRIDE_LENGTH_S}s stride")
 
-    # 4. Find all audio files
-    if not os.path.exists(INPUT_FOLDER):
-        os.makedirs(INPUT_FOLDER)
+    # 4. Determine output folders
+    INPUT_FOLDER = Path(INPUT_FOLDER)
+    if book_dir:
+        transcripts_folder = book_dir / "transcripts"
+        backup_folder = book_dir / "backup"
+    else:
+        transcripts_folder = INPUT_FOLDER
+        backup_folder = INPUT_FOLDER / "backup"
+    transcripts_folder.mkdir(parents=True, exist_ok=True)
+    backup_folder.mkdir(parents=True, exist_ok=True)
+
+    # 5. Find all audio files
+    if not INPUT_FOLDER.exists():
+        INPUT_FOLDER.mkdir(parents=True, exist_ok=True)
         print(f"\n📁 Created folder: {INPUT_FOLDER}")
         print(f"   Place your English audio files there and run again.")
         return
@@ -208,10 +222,11 @@ def transcribe_all_chapters():
 
     print(f"\nFound {len(audio_files)} files to transcribe.")
 
-    # 5. Process each file
+    # 6. Process each file
     for filename in audio_files:
-        audio_path = os.path.join(INPUT_FOLDER, filename)
-        json_path = os.path.join(INPUT_FOLDER, f"{filename}.json")
+        audio_path = str(INPUT_FOLDER / filename)
+        stem = Path(filename).stem.lower()
+        json_path = str(transcripts_folder / f"{stem}.json")
 
         # Skip if already transcribed
         if os.path.exists(json_path):
@@ -244,34 +259,45 @@ def transcribe_all_chapters():
         # Build JSON
         json_data = build_json_transcript(audio_path, segments, language="english")
 
-        # Save JSON (source of truth)
-        output_file_json = audio_path + ".json"
-        save_json_transcript(json_data, output_file_json)
+        # Save JSON to transcripts/
+        save_json_transcript(json_data, json_path)
 
-        # Derive formats from JSON
+        # Derive text formats and save to backup/
         formatted_timestamps = json_to_formatted_text(json_data, include_timestamps=True)
-        formatted_markdown = format_markdown(formatted_timestamps)
         formatted_llm = format_llm_optimized(formatted_timestamps)
 
-        # Save derived formats
-        output_file_ts = audio_path + "_TRANSCRIPT.txt"
+        output_file_ts = str(backup_folder / f"{stem}_transcript.txt")
         with open(output_file_ts, "w", encoding="utf-8") as f:
             f.write(formatted_timestamps)
 
-        output_file_md = audio_path + "_MARKDOWN.md"
-        with open(output_file_md, "w", encoding="utf-8") as f:
-            f.write(formatted_markdown)
-
-        output_file_llm = audio_path + "_LLM.txt"
-        with open(output_file_llm, "w", encoding="utf-8") as f:
+        output_file_llm_txt = str(backup_folder / f"{stem}_llm.txt")
+        with open(output_file_llm_txt, "w", encoding="utf-8") as f:
             f.write(formatted_llm)
 
-        print(f"Done! Saved JSON: {output_file_json}")
+        print(f"Done! Saved JSON: {json_path}")
         print(f"       TRANSCRIPT: {output_file_ts}")
-        print(f"       MARKDOWN:   {output_file_md}")
-        print(f"       LLM:        {output_file_llm}")
+        print(f"       LLM:        {output_file_llm_txt}")
 
     print("\n✅ ALL FILES FINISHED!")
 
 if __name__ == "__main__":
-    transcribe_all_chapters()
+    parser = argparse.ArgumentParser(description="IceScriber English Edition - Distil-Whisper Transcription")
+    parser.add_argument("--book-dir", type=str, default=None,
+                        help="Book directory (e.g., data/books/the-hate-u-give). Reads audio from <book-dir>/audio/")
+    parser.add_argument("--input-dir", type=str, default=None,
+                        help="Direct path to folder containing audio files")
+    args = parser.parse_args()
+
+    if args.book_dir:
+        book_dir = Path(args.book_dir)
+        input_folder = str(book_dir / "audio")
+        if not book_dir.exists():
+            book_dir.mkdir(parents=True, exist_ok=True)
+            (book_dir / "audio").mkdir(exist_ok=True)
+            print(f"Created book directory: {book_dir}")
+            print(f"Place your audio files in: {book_dir / 'audio'}/")
+        transcribe_all_chapters(input_folder=input_folder, book_dir=book_dir)
+    elif args.input_dir:
+        transcribe_all_chapters(input_folder=args.input_dir)
+    else:
+        transcribe_all_chapters(input_folder=DEFAULT_INPUT_FOLDER)
